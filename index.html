@@ -16,7 +16,6 @@
       padding: 1.5rem 1.75rem;
     }
 
-    /* Header */
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -25,7 +24,7 @@
     }
 
     .page-label {
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: .12em;
       text-transform: uppercase;
       color: #999;
@@ -40,12 +39,11 @@
     }
 
     .page-subtitle {
-      font-size: 13px;
+      font-size: 14px;
       color: #888;
       margin-top: .25rem;
     }
 
-    /* Summary badge */
     .summary-badge {
       display: flex;
       align-items: center;
@@ -53,7 +51,7 @@
       padding: 5px 14px;
       border-radius: 999px;
       border: 1.5px solid #f0b8b8;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       background: #fff;
       color: #c0392b;
@@ -66,7 +64,6 @@
       background: #e24b4a;
     }
 
-    /* Filter bar */
     .filter-bar {
       display: flex;
       align-items: center;
@@ -91,7 +88,7 @@
     .search-input {
       width: 100%;
       padding: 8px 12px 8px 34px;
-      font-size: 13px;
+      font-size: 14px;
       font-family: 'DM Sans', sans-serif;
       border: 1.5px solid #e0e0e0;
       border-radius: 8px;
@@ -103,11 +100,10 @@
     .search-input:focus { border-color: #bbb; }
 
     .results-count {
-      font-size: 13px;
+      font-size: 14px;
       color: #aaa;
     }
 
-    /* Table container */
     .table-wrap {
       background: #fff;
       border: 1.5px solid #e8e8e4;
@@ -124,7 +120,7 @@
     }
 
     thead th {
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: uppercase;
@@ -146,28 +142,25 @@
 
     tbody td {
       padding: 14px 16px;
-      font-size: 13.5px;
+      font-size: 15px;
       color: #333;
-      vertical-align: middle;
+      vertical-align: top;
     }
 
-    /* Student name */
     .student-name {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
       color: #111;
     }
 
-    /* Date */
     .date-cell {
-      font-size: 12px;
+      font-size: 14px;
       color: #666;
       white-space: nowrap;
     }
 
-    /* Source link */
     .source-link {
-      font-size: 13px;
+      font-size: 14px;
       color: #1a6eb5;
       text-decoration: none;
       font-weight: 500;
@@ -176,13 +169,12 @@
     .source-link:hover { text-decoration: underline; }
 
     .source-plain {
-      font-size: 13px;
+      font-size: 14px;
       color: #333;
     }
 
-    /* View document */
     .doc-link {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: #1a6eb5;
       text-decoration: none;
@@ -190,9 +182,8 @@
 
     .doc-link:hover { text-decoration: underline; }
 
-    /* Uploader handle */
     .uploader-handle {
-      font-size: 11px;
+      font-size: 12px;
       font-family: 'Courier New', monospace;
       color: #888;
       background: #f5f5f3;
@@ -202,12 +193,22 @@
       white-space: nowrap;
     }
 
-    /* Empty / loading / error states */
+    .notes-cell {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      max-width: 240px;
+    }
+
+    .notes-empty {
+      color: #ccc;
+    }
+
     .state-cell {
       text-align: center;
       padding: 3rem;
       color: #aaa;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     .error-box {
@@ -215,7 +216,7 @@
       background: #fdf0f0;
       border-radius: 8px;
       color: #c0392b;
-      font-size: 13px;
+      font-size: 14px;
       margin-top: 1rem;
     }
   </style>
@@ -259,10 +260,11 @@
           <th>Source</th>
           <th>Document</th>
           <th>Uploader Handle</th>
+          <th>Notes</th>
         </tr>
       </thead>
       <tbody id="tableBody">
-        <tr><td colspan="5" class="state-cell">Loading disclosures…</td></tr>
+        <tr><td colspan="6" class="state-cell">Loading disclosures…</td></tr>
       </tbody>
     </table>
   </div>
@@ -288,8 +290,8 @@ function fmtDate(d) {
 }
 
 function renderTable() {
-  const filter = document.getElementById('filterInput').value.toLowerCase();
-  const tbody  = document.getElementById('tableBody');
+  const filter  = document.getElementById('filterInput').value.toLowerCase();
+  const tbody   = document.getElementById('tableBody');
   const countEl = document.getElementById('resultsCount');
 
   const filtered = allDisclosures.filter(d => {
@@ -302,30 +304,30 @@ function renderTable() {
   countEl.textContent = `${filtered.length} shown`;
 
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="5" class="state-cell">${allDisclosures.length ? 'No disclosures match your search.' : 'No privacy disclosures on record for this institution.'}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="state-cell">${allDisclosures.length ? 'No disclosures match your search.' : 'No privacy disclosures on record for this institution.'}</td></tr>`;
     return;
   }
 
   tbody.innerHTML = filtered.map(d => {
-    // Student — first initial + last name
     const initial  = (d.student_first_name || '').charAt(0).toUpperCase();
     const lastName = d.student_last_name || '';
     const student  = initial ? `${initial}. ${lastName}` : lastName;
 
-    // Source
     const sourceCell = d.source_url && d.source_url.startsWith('http')
       ? `<a class="source-link" href="${escHtml(d.source_url)}" target="_blank" rel="noopener">${escHtml(d.source_label || 'Source')} ↗</a>`
       : `<span class="source-plain">${escHtml(d.source_label || '—')}</span>`;
 
-    // Document
     const docCell = d.document_url && d.document_url.startsWith('http')
       ? `<a class="doc-link" href="${escHtml(d.document_url)}" target="_blank" rel="noopener">View Document ↗</a>`
       : '<span style="color:#ccc;">—</span>';
 
-    // Uploader
     const uploaderCell = d.uploader_handle
       ? `<span class="uploader-handle">@${escHtml(d.uploader_handle)}</span>`
       : '<span style="color:#ccc;">—</span>';
+
+    const notesCell = d.notes
+      ? `<span class="notes-cell">${escHtml(d.notes)}</span>`
+      : '<span class="notes-empty">—</span>';
 
     return `
       <tr>
@@ -334,6 +336,7 @@ function renderTable() {
         <td>${sourceCell}</td>
         <td>${docCell}</td>
         <td>${uploaderCell}</td>
+        <td>${notesCell}</td>
       </tr>`;
   }).join('');
 }
@@ -349,24 +352,21 @@ async function load() {
 
   if (!id) {
     document.getElementById('instName').textContent = 'No institution specified';
-    document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" class="state-cell">Pass <code>?institution={uuid}</code> in the URL.</td></tr>';
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" class="state-cell">Pass <code>?institution={uuid}</code> in the URL.</td></tr>';
     return;
   }
 
   try {
-    // Load institution name
     const instData = await api(`institutions?id=eq.${id}&select=id,name`);
     const inst = instData[0];
     document.getElementById('instName').textContent = inst ? inst.name : 'Unknown Institution';
 
-    // Load disclosures
     const data = await api(
-      `privacy_disclosures?institution_id=eq.${id}&select=id,student_first_name,student_last_name,document_date,source_label,source_url,document_url,uploader_handle&order=document_date.desc`
+      `privacy_disclosures?institution_id=eq.${id}&select=id,student_first_name,student_last_name,document_date,source_label,source_url,document_url,uploader_handle,notes&order=document_date.desc`
     );
 
     allDisclosures = data || [];
 
-    // Update subtitle and badge
     const count = allDisclosures.length;
     document.getElementById('instSubtitle').textContent = count > 0
       ? `${count} disclosure${count !== 1 ? 's' : ''} on record`
