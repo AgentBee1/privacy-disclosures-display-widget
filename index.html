@@ -120,7 +120,7 @@
     }
 
     thead th {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: uppercase;
@@ -326,8 +326,8 @@ function renderTable() {
       ? `<span class="uploader-handle">@${escHtml(d.uploader_handle)}</span>`
       : '<span style="color:#ccc;">—</span>';
 
-    const notesCell = d.notes
-      ? `<span class="notes-cell">${escHtml(d.notes)}</span>`
+   const notesCell = d.notes
+      ? `<span class="notes-cell">${escHtml(d.notes).replace(/•/g, '<br>•').replace(/^\<br\>/, '')}</span>`
       : '<span class="notes-empty">—</span>';
 
     return `
