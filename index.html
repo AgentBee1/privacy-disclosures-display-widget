@@ -3,395 +3,633 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Disclosures — AgentBee</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Awards & Recognition — AgentBee</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f5f5f3;
-      color: #1a1a1a;
-      min-height: 100vh;
-      padding: 1.5rem 1.75rem;
+    :root {
+      --gold:       #c8973a;
+      --gold-light: #fdf6e7;
+      --gold-mid:   #f5e4b8;
+      --gold-dark:  #8a6420;
+      --ink:        #17181c;
+      --ink-mid:    #4a4d58;
+      --ink-soft:   #8b8fa3;
+      --surface:    #ffffff;
+      --bg:         #f7f8fa;
+      --border:     #e8e9ee;
+      --blue:       #2563eb;
+      --blue-light: #eff6ff;
+      --radius:     10px;
+      --radius-lg:  14px;
     }
 
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .page-label {
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: #999;
-      margin-bottom: .35rem;
-    }
-
-    .page-title {
-      font-size: 26px;
-      font-weight: 600;
-      color: #111;
-      line-height: 1.1;
-    }
-
-    .page-subtitle {
+    html, body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
       font-size: 14px;
-      color: #888;
-      margin-top: .25rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .summary-badge {
+    .widget {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+    }
+
+    /* ── Header ── */
+    .widget-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .trophy-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold) 0%, #e8b44a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(200,151,58,0.28);
+    }
+
+    .widget-header-text h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .widget-header-text p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 3px;
+    }
+
+    .award-count-badge {
+      margin-left: auto;
+      background: var(--gold-light);
+      border: 1px solid var(--gold-mid);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      font-family: 'DM Mono', monospace;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    /* ── Tabs ── */
+    .tab-bar {
+      display: flex;
+      gap: 2px;
+      background: var(--border);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 7px 18px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    /* ── Loading / empty ── */
+    .state-loading, .state-empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .state-loading .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Group rows (agent or institution) ── */
+    .group-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .group-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .group-row:hover { border-color: #d0d3de; }
+    .group-row.open  { border-color: var(--gold-mid); }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .group-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--gold-light);
+      border: 1px solid var(--gold-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+
+    .group-main { flex: 1; min-width: 0; }
+
+    .group-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .group-meta {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 14px;
-      border-radius: 999px;
-      border: 1.5px solid #f0b8b8;
-      font-size: 14px;
-      font-weight: 600;
-      background: #fff;
-      color: #c0392b;
+      flex-wrap: wrap;
     }
 
-    .summary-badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #e24b4a;
+    .group-meta .country-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      color: var(--ink-mid);
+      letter-spacing: 0.02em;
     }
 
-    .filter-bar {
+    .awards-pill {
+      margin-left: auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .search-wrap {
-      position: relative;
-      width: 280px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 11px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #bbb;
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 8px 12px 8px 34px;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      background: #fff;
-      color: #1a1a1a;
-      outline: none;
-    }
-
-    .search-input:focus { border-color: #bbb; }
-
-    .results-count {
-      font-size: 14px;
-      color: #aaa;
-    }
-
-    .table-wrap {
-      background: #fff;
-      border: 1.5px solid #e8e8e4;
-      border-radius: 12px;
-      overflow: hidden;
-      max-height: 70vh;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead th {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #aaa;
-      padding: 10px 16px;
-      text-align: left;
-      border-bottom: 1.5px solid #efefed;
-      background: #fff;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      background: var(--gold-light);
+      border: 1px solid var(--gold-mid);
+      border-radius: 20px;
+      padding: 3px 10px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    tbody tr {
-      border-bottom: 1px solid #f0f0ee;
+    .chevron {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--ink-soft);
+      transition: transform 0.2s;
+    }
+
+    .group-row.open .chevron { transform: rotate(180deg); }
+
+    /* ── Award entries ── */
+    .awards-list {
+      display: none;
+      border-top: 1px solid var(--gold-mid);
+      background: var(--gold-light);
+    }
+
+    .group-row.open .awards-list { display: block; }
+
+    .award-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px 14px 20px;
+      border-bottom: 1px solid rgba(200,151,58,0.15);
       transition: background 0.1s;
     }
 
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #fafaf8; }
+    .award-entry:last-child { border-bottom: none; }
+    .award-entry:hover { background: rgba(200,151,58,0.06); }
 
-    tbody td {
-      padding: 14px 16px;
-      font-size: 15px;
-      color: #333;
-      vertical-align: top;
+    .award-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--gold) 0%, #e8b44a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      box-shadow: 0 1px 4px rgba(200,151,58,0.3);
     }
 
-    .student-name {
-      font-weight: 600;
-      font-size: 15px;
-      color: #111;
+    .award-body { flex: 1; min-width: 0; }
+
+    .award-desc {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.5;
     }
 
-    .date-cell {
-      font-size: 14px;
-      color: #666;
-      white-space: nowrap;
+    .award-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 7px;
+      flex-wrap: wrap;
     }
 
-    .source-link {
-      font-size: 14px;
-      color: #1a6eb5;
-      text-decoration: none;
+    .award-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-soft);
+      letter-spacing: 0.03em;
+    }
+
+    .award-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--gold-mid);
+      flex-shrink: 0;
+    }
+
+    .award-issuer-tag {
+      font-size: 11px;
+      color: var(--gold-dark);
       font-weight: 500;
     }
 
-    .source-link:hover { text-decoration: underline; }
-
-    .source-plain {
-      font-size: 14px;
-      color: #333;
-    }
-
-    .doc-link {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1a6eb5;
+    .award-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
       text-decoration: none;
-    }
-
-    .doc-link:hover { text-decoration: underline; }
-
-    .uploader-handle {
-      font-size: 12px;
-      font-family: 'Courier New', monospace;
-      color: #888;
-      background: #f5f5f3;
-      border: 1px solid #e5e5e2;
-      border-radius: 5px;
-      padding: 2px 7px;
+      background: var(--blue-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 3px 9px;
+      transition: all 0.12s;
+      margin-left: auto;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .notes-cell {
-      font-size: 13px;
-      color: #666;
-      line-height: 1.5;
-      max-width: 240px;
-      white-space: pre-wrap;
+    .award-link:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
     }
 
-    .notes-empty {
-      color: #ccc;
+    .award-link svg { flex-shrink: 0; }
+
+    /* ── No source URL fallback ── */
+    .award-no-link {
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-left: auto;
+      white-space: nowrap;
+      font-style: italic;
+      flex-shrink: 0;
     }
 
-    .state-cell {
+    /* ── Error ── */
+    .state-error {
       text-align: center;
-      padding: 3rem;
-      color: #aaa;
-      font-size: 14px;
+      padding: 32px 20px;
+      color: #b91c1c;
+      font-size: 13px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
     }
 
-    .error-box {
-      padding: 1rem;
-      background: #fdf0f0;
-      border-radius: 8px;
-      color: #c0392b;
-      font-size: 14px;
-      margin-top: 1rem;
+    @media (max-width: 560px) {
+      .award-link, .award-no-link { margin-left: 0; }
+      .award-footer { gap: 7px; }
+      .widget-header { flex-wrap: wrap; }
+      .award-count-badge { margin-left: 0; }
     }
   </style>
 </head>
 <body>
+<div class="widget">
 
-<div id="app">
-
-  <div class="page-header">
-    <div>
-      <div class="page-label">AgentBee · Privacy Disclosures</div>
-      <div class="page-title" id="instName">Loading…</div>
-      <div class="page-subtitle" id="instSubtitle"></div>
+  <div class="widget-header">
+    <div class="trophy-mark">🏆</div>
+    <div class="widget-header-text">
+      <h1>Awards &amp; Recognition</h1>
+      <p>Acknowledged agents in our network</p>
     </div>
-    <div id="summaryBadge" style="display:none;">
-      <div class="summary-badge">
-        <div class="summary-badge-dot"></div>
-        <span id="badgeCount"></span>
-      </div>
-    </div>
+    <div class="award-count-badge" id="countBadge" style="display:none;"></div>
   </div>
 
-  <div class="filter-bar">
-    <div class="search-wrap">
-      <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
-        <circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/>
-      </svg>
-      <input class="search-input" id="filterInput" placeholder="Filter by student name or uploader…" oninput="renderTable()" />
-    </div>
-    <span class="results-count" id="resultsCount"></span>
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabAgent">By agent</button>
+    <button class="tab-btn" id="tabInstitution">By institution</button>
   </div>
 
-  <div id="errorBox" style="display:none;" class="error-box"></div>
+  <div id="tabContentAgent">
+    <div class="state-loading" id="loadingAgent">
+      <div class="spinner"></div>
+      Loading awards…
+    </div>
+    <div class="group-list" id="agentList" style="display:none;"></div>
+    <div class="state-empty" id="emptyAgent" style="display:none;">No awards on record yet.</div>
+    <div class="state-error" id="errorAgent" style="display:none;"></div>
+  </div>
 
-  <div class="table-wrap" id="tableWrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Date</th>
-          <th>Source</th>
-          <th>Document</th>
-          <th>Uploader Handle</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-        <tr><td colspan="6" class="state-cell">Loading disclosures…</td></tr>
-      </tbody>
-    </table>
+  <div id="tabContentInstitution" style="display:none;">
+    <div class="state-loading" id="loadingInst" style="display:none;">
+      <div class="spinner"></div>
+      Loading awards…
+    </div>
+    <div class="group-list" id="instList" style="display:none;"></div>
+    <div class="state-empty" id="emptyInst" style="display:none;">No awards on record yet.</div>
+    <div class="state-error" id="errorInst" style="display:none;"></div>
   </div>
 
 </div>
 
 <script>
-const SUPABASE_URL = 'https://mtatzzrbapftzwuxrcko.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10YXR6enJiYXBmdHp3dXhyY2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxOTg5NTksImV4cCI6MjA4OTc3NDk1OX0.qPUvwuA-bPhMm33QUT3VKE0H-Bv5zeBDSeSmqt4pCSU';
-const H = { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` };
+let _allAwards = [];
+let _dataLoaded = false;
+let _activeTab = 'agent';
 
-let allDisclosures = [];
-
-async function api(path) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: H });
-  if (!r.ok) throw new Error(`API error ${r.status}`);
-  return r.json();
+// ── Format date ─────────────────────────────────────────────────
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function fmtDate(d) {
-  if (!d) return '—';
-  return new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+// ── Fetch from proxy ─────────────────────────────────────────────
+async function loadAwards() {
+  const res = await fetch('/api/awards');
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  return data.awards || [];
 }
 
-function renderTable() {
-  const filter  = document.getElementById('filterInput').value.toLowerCase();
-  const tbody   = document.getElementById('tableBody');
-  const countEl = document.getElementById('resultsCount');
-
-  const filtered = allDisclosures.filter(d => {
-    if (!filter) return true;
-    const student  = `${d.student_first_name} ${d.student_last_name}`.toLowerCase();
-    const uploader = (d.uploader_handle || '').toLowerCase();
-    return student.includes(filter) || uploader.includes(filter);
+// ── Group by agent ───────────────────────────────────────────────
+function groupByAgent(awards) {
+  const map = new Map();
+  awards.forEach(a => {
+    if (!a.agent) return;
+    const key = a.agent.id;
+    if (!map.has(key)) map.set(key, { agent: a.agent, awards: [] });
+    map.get(key).awards.push(a);
   });
-
-  countEl.textContent = `${filtered.length} shown`;
-
-  if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="state-cell">${allDisclosures.length ? 'No disclosures match your search.' : 'No privacy disclosures on record for this institution.'}</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = filtered.map(d => {
-    const initial  = (d.student_first_name || '').charAt(0).toUpperCase();
-    const lastName = d.student_last_name || '';
-    const student  = initial ? `${initial}. ${lastName}` : lastName;
-
-    const sourceCell = d.source_url && d.source_url.startsWith('http')
-      ? `<a class="source-link" href="${escHtml(d.source_url)}" target="_blank" rel="noopener">${escHtml(d.source_label || 'Source')} ↗</a>`
-      : `<span class="source-plain">${escHtml(d.source_label || '—')}</span>`;
-
-    const docCell = d.document_url && d.document_url.startsWith('http')
-      ? `<a class="doc-link" href="${escHtml(d.document_url)}" target="_blank" rel="noopener">View Document ↗</a>`
-      : '<span style="color:#ccc;">—</span>';
-
-    const uploaderCell = d.uploader_handle
-      ? `<span class="uploader-handle">@${escHtml(d.uploader_handle)}</span>`
-      : '<span style="color:#ccc;">—</span>';
-
-   const notesCell = d.notes
-      ? `<span class="notes-cell">${escHtml(d.notes).replace(/•/g, '<br>•').replace(/^\<br\>/, '')}</span>`
-      : '<span class="notes-empty">—</span>';
-
-    return `
-      <tr>
-        <td><span class="student-name">${escHtml(student)}</span></td>
-        <td><span class="date-cell">${fmtDate(d.document_date)}</span></td>
-        <td>${sourceCell}</td>
-        <td>${docCell}</td>
-        <td>${uploaderCell}</td>
-        <td>${notesCell}</td>
-      </tr>`;
-  }).join('');
+  // Sort alphabetically
+  return [...map.values()].sort((a, b) => a.agent.agency_name.localeCompare(b.agent.agency_name));
 }
 
-function escHtml(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-async function load() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('institution') || params.get('id') || '';
-
-  if (!id) {
-    document.getElementById('instName').textContent = 'No institution specified';
-    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" class="state-cell">Pass <code>?institution={uuid}</code> in the URL.</td></tr>';
-    return;
-  }
-
-  try {
-    const instData = await api(`institutions?id=eq.${id}&select=id,name`);
-    const inst = instData[0];
-    document.getElementById('instName').textContent = inst ? inst.name : 'Unknown Institution';
-
-    const data = await api(
-      `privacy_disclosures?institution_id=eq.${id}&select=id,student_first_name,student_last_name,document_date,source_label,source_url,document_url,uploader_handle,notes&order=document_date.desc`
-    );
-
-    allDisclosures = data || [];
-
-    const count = allDisclosures.length;
-    document.getElementById('instSubtitle').textContent = count > 0
-      ? `${count} disclosure${count !== 1 ? 's' : ''} on record`
-      : '';
-
-    if (count > 0) {
-      document.getElementById('badgeCount').textContent = `${count} Disclosure${count !== 1 ? 's' : ''}`;
-      document.getElementById('summaryBadge').style.display = 'block';
+// ── Group by institution ─────────────────────────────────────────
+function groupByInstitution(awards) {
+  const map = new Map();
+  awards.forEach(a => {
+    if (!a.institutions.length) {
+      // No issuer linked — put under "Unattributed"
+      const key = '__none__';
+      if (!map.has(key)) map.set(key, { institution: { id: '__none__', name: 'No institution linked' }, awards: [] });
+      map.get(key).awards.push(a);
+      return;
     }
+    a.institutions.forEach(inst => {
+      if (!map.has(inst.id)) map.set(inst.id, { institution: inst, awards: [] });
+      map.get(inst.id).awards.push(a);
+    });
+  });
+  return [...map.values()]
+    .filter(g => g.institution.id !== '__none__')
+    .sort((a, b) => a.institution.name.localeCompare(b.institution.name));
+}
 
-    document.getElementById('resultsCount').textContent = `${count} shown`;
-    renderTable();
+// ── Render helpers ───────────────────────────────────────────────
+function chevronSVG() {
+  return `<svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l4 4 4-4"/>
+  </svg>`;
+}
+
+function awardEntryHTML(award, showAgent, showInstitution) {
+  const dateStr = fmtDate(award.date);
+  const issuers = award.institutions.map(i => i.name).join(', ');
+  const agentName = award.agent ? award.agent.agency_name : '';
+
+  const linkBtn = award.source_url
+    ? `<a class="award-link" href="${award.source_url}" target="_blank" rel="noopener">
+        View report
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.5 8.5l7-7M4 1.5h4.5v4.5"/>
+        </svg>
+      </a>`
+    : `<span class="award-no-link">No report link</span>`;
+
+  const contextParts = [];
+  if (showAgent && agentName) contextParts.push(`<span class="award-issuer-tag">Agent: ${escHtml(agentName)}</span>`);
+  if (showInstitution && issuers) {
+    contextParts.push(`<span class="award-dot"></span>`);
+    contextParts.push(`<span class="award-issuer-tag">Issued by: ${escHtml(issuers)}</span>`);
+  }
+
+  return `<div class="award-entry">
+    <div class="award-icon">🏅</div>
+    <div class="award-body">
+      <div class="award-desc">${escHtml(award.description || 'Award received.')}</div>
+      <div class="award-footer">
+        <span class="award-date">${escHtml(dateStr)}</span>
+        ${contextParts.join('')}
+        ${linkBtn}
+      </div>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Render agent tab ─────────────────────────────────────────────
+function renderAgentTab(groups) {
+  const container = document.getElementById('agentList');
+
+  if (!groups.length) {
+    document.getElementById('emptyAgent').style.display = 'block';
+    return;
+  }
+
+  container.innerHTML = groups.map((g, gi) => {
+    const agent = g.agent;
+    const countryMeta = [agent.country, agent.jurisdiction]
+      .filter(Boolean)
+      .filter((v, i, a) => a.indexOf(v) === i) // dedupe if same
+      .join(' · ');
+    const awardsHTML = g.awards.map(a => awardEntryHTML(a, false, true)).join('');
+
+    return `<div class="group-row" id="agent-row-${gi}">
+      <div class="group-header" data-group="agent-${gi}">
+        <div class="group-avatar">🏆</div>
+        <div class="group-main">
+          <div class="group-name">${escHtml(agent.agency_name)}</div>
+          <div class="group-meta">
+            ${countryMeta ? `<span class="country-tag">${escHtml(countryMeta)}</span>` : ''}
+          </div>
+        </div>
+        <div class="awards-pill">
+          🏅 ${g.awards.length} award${g.awards.length !== 1 ? 's' : ''}
+        </div>
+        ${chevronSVG()}
+      </div>
+      <div class="awards-list">${awardsHTML}</div>
+    </div>`;
+  }).join('');
+
+  container.style.display = 'flex';
+}
+
+// ── Render institution tab ───────────────────────────────────────
+function renderInstTab(groups) {
+  const container = document.getElementById('instList');
+
+  if (!groups.length) {
+    document.getElementById('emptyInst').style.display = 'block';
+    return;
+  }
+
+  container.innerHTML = groups.map((g, gi) => {
+    const inst = g.institution;
+    const awardsHTML = g.awards.map(a => awardEntryHTML(a, true, false)).join('');
+
+    return `<div class="group-row" id="inst-row-${gi}">
+      <div class="group-header" data-group="inst-${gi}">
+        <div class="group-avatar">🏛️</div>
+        <div class="group-main">
+          <div class="group-name">${escHtml(inst.name)}</div>
+          <div class="group-meta" style="color:var(--ink-soft);font-size:12px;">Issuing institution</div>
+        </div>
+        <div class="awards-pill">
+          🏅 ${g.awards.length} award${g.awards.length !== 1 ? 's' : ''}
+        </div>
+        ${chevronSVG()}
+      </div>
+      <div class="awards-list">${awardsHTML}</div>
+    </div>`;
+  }).join('');
+
+  container.style.display = 'flex';
+}
+
+// ── Toggle expand/collapse ───────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const header = e.target.closest('[data-group]');
+  if (!header) return;
+  const groupId = header.getAttribute('data-group');
+  const [type, idx] = groupId.split('-');
+  const rowId = type === 'agent' ? `agent-row-${idx}` : `inst-row-${idx}`;
+  const row = document.getElementById(rowId);
+  if (row) row.classList.toggle('open');
+});
+
+// ── Tab switching ────────────────────────────────────────────────
+document.getElementById('tabAgent').addEventListener('click', function() {
+  _activeTab = 'agent';
+  document.getElementById('tabAgent').classList.add('active');
+  document.getElementById('tabInstitution').classList.remove('active');
+  document.getElementById('tabContentAgent').style.display = 'block';
+  document.getElementById('tabContentInstitution').style.display = 'none';
+});
+
+document.getElementById('tabInstitution').addEventListener('click', function() {
+  _activeTab = 'institution';
+  document.getElementById('tabInstitution').classList.add('active');
+  document.getElementById('tabAgent').classList.remove('active');
+  document.getElementById('tabContentAgent').style.display = 'none';
+  document.getElementById('tabContentInstitution').style.display = 'block';
+
+  // Render institution tab on first view
+  if (!document.getElementById('instList').innerHTML) {
+    const groups = groupByInstitution(_allAwards);
+    document.getElementById('loadingInst').style.display = 'none';
+    renderInstTab(groups);
+  }
+});
+
+// ── Init ─────────────────────────────────────────────────────────
+async function init() {
+  try {
+    _allAwards = await loadAwards();
+    _dataLoaded = true;
+
+    const totalAwards = _allAwards.length;
+    const badge = document.getElementById('countBadge');
+    badge.textContent = `${totalAwards} award${totalAwards !== 1 ? 's' : ''}`;
+    badge.style.display = 'block';
+
+    document.getElementById('loadingAgent').style.display = 'none';
+
+    const agentGroups = groupByAgent(_allAwards);
+    renderAgentTab(agentGroups);
 
   } catch(e) {
-    document.getElementById('instName').textContent = 'Error loading data';
-    const errBox = document.getElementById('errorBox');
-    errBox.textContent = `Error: ${e.message}`;
-    errBox.style.display = 'block';
-    document.getElementById('tableBody').innerHTML = '';
-    document.getElementById('tableWrap').style.display = 'none';
+    document.getElementById('loadingAgent').style.display = 'none';
+    const err = document.getElementById('errorAgent');
+    err.style.display = 'block';
+    err.textContent = 'Could not load awards data. Please try again later.';
+    console.error('Awards widget error:', e);
   }
 }
 
-load();
+init();
 </script>
 </body>
 </html>
