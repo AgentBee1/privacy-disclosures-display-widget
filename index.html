@@ -275,7 +275,10 @@
 <script>
 const SUPABASE_URL = 'https://mtatzzrbapftzwuxrcko.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10YXR6enJiYXBmdHp3dXhyY2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxOTg5NTksImV4cCI6MjA4OTc3NDk1OX0.qPUvwuA-bPhMm33QUT3VKE0H-Bv5zeBDSeSmqt4pCSU';
-const H = { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` };
+// Per-client widget key (?key=...) sent as x-widget-key: the database only returns this
+// institution's disclosures for it (15 Nov 2026).
+const WIDGET_KEY = new URLSearchParams(window.location.search).get('key') || '';
+const H = { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, ...(WIDGET_KEY ? { 'x-widget-key': WIDGET_KEY } : {}) };
 
 let allDisclosures = [];
 
